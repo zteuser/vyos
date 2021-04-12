@@ -1,12 +1,19 @@
-VyOS L2 EVPN setup
+# VyOS L2 EVPN setup
+
 ---
+
 Feature:
+
 - ISIS
+
 - BGP
+
 - VxLAN
 
 Schema network connection
+
 ---
+
 ![Connections](./schema.png)
 
 Spine sample config [here](./test/sp1.conf) # It works!
