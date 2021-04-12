@@ -1,10 +1,8 @@
 ---
-- name: Setup SPINE
-  hosts: spine
+- hosts: spine
   roles: 
-    - spine
+    - role: spine
 
-- name: Setup LEAF
-  hosts: leaf
+- hosts: leaf
   roles:    
-    - leaf 
+    - role: leaf 
