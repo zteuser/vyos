@@ -1,0 +1,7 @@
+bgp_listen_adr: "172.0.1.0/24"
+dummy0_ip: "172.0.0.100/32"
+isis_id: "49.0001.1720.0000.0100.00"
+clos_interfaces: 
+  - { interface: eth1, addr: 172.0.1.0, mask: 31}
+  - { interface: eth2, addr: 172.0.1.2, mask: 31}
+  - { interface: eth3, addr: 172.0.1.4, mask: 31}

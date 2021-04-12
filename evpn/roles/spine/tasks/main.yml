@@ -1,0 +1,51 @@
+---
+- name: Interfaces DUMMY DUM0 setup
+  vyos.vyos.vyos_config:
+    lines:
+    - set interfaces dummy dum0 address {{ dummy0_ip }}
+
+- name: Enable LLDP service
+  vyos.vyos.vyos_config:
+    lines:
+    - set service lldp interface all
+    save: yes 
+
+- name: Setup MTU on CLOS interfaces
+  vyos.vyos.vyos_interfaces:
+    config:
+    - name: "{{ item.interface }}"
+      mtu: 1600
+    state: replaced  
+  with_items: "{{ clos_interfaces }}"
+
+- name: CLOS Interfaces ETH-X setup
+  vyos.vyos.vyos_l3_interfaces:
+    config:
+    - name: "{{ item.interface }}"
+      ipv4:
+      - address: "{{ item.addr }}/{{ item.mask }}"
+    state: replaced  
+  with_items: "{{ clos_interfaces }}"
+
+- name: Setup ISIS router
+  vyos.vyos.vyos_config:
+    lines:
+    - set protocols isis net {{ isis_id }}
+    - set protocols isis interface {{ item. interface }} bfd
+    - set protocols isis interface {{ item. interface }} network point-to-point  
+  with_items: "{{ clos_interfaces }}"       
+
+- name: Setup RR BGP
+  vyos.vyos.vyos_config:
+    lines:
+    - set protocols bgp local-as '65010'
+    - set protocols bgp address-family ipv4-unicast maximum-paths ibgp '4'
+    - set protocols bgp address-family ipv4-unicast redistribute connected
+    - set protocols bgp listen range {{ bgp_listen_adr }} peer-group 'evpn'
+    - set protocols bgp parameters log-neighbor-changes
+    - set protocols bgp parameters router-id {{ dummy0_ip | ansible.netcommon.ipaddr('address') }}
+    - set protocols bgp peer-group evpn address-family ipv4-unicast route-reflector-client
+    - set protocols bgp peer-group evpn address-family l2vpn-evpn route-reflector-client
+    - set protocols bgp peer-group evpn capability dynamic
+    - set protocols bgp peer-group evpn remote-as '65010'
+    save: yes  

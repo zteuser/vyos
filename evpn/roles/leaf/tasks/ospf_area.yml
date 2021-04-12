@@ -1,0 +1,13 @@
+---
+- set_fact:
+    host_addr: "{{ item.addr }}/{{ item.mask }}"
+
+- debug:
+    msg: "{{ host_addr | ansible.netcommon.ipaddr('net') }}"
+
+- vyos.vyos.vyos_config:
+    lines:
+    - set protocols ospf area 0 network {{ host_addr | ansible.netcommon.ipaddr('net') }}
+    - set protocols ospf interface {{ item.interface }} network 'point-to-point'
+    - set protocols ospf passive-interface-exclude {{ item.interface }}
+    save: yes 

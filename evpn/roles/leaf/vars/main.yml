@@ -1,0 +1,5 @@
+---
+  l2_interface: eth3
+
+  vlans_l2vni:
+    - { vlan_id: 100, vni_id: 10100 }  

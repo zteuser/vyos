@@ -1,0 +1,7 @@
+dummy0_ip: "172.0.0.3/32"
+bgp_peer_addr1: 172.0.1.4
+bgp_peer_addr2: 172.0.2.4
+isis_id: "49.0001.1720.0000.0003.00"
+clos_interfaces: 
+  - { interface: eth1, addr: 172.0.1.5, mask: 31, net: "172.0.1.4/31"}
+  - { interface: eth2, addr: 172.0.2.5, mask: 31, net: "172.0.2.4/31"}
