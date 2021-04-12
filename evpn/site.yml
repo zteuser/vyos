@@ -1,8 +1,11 @@
 ---
-- hosts: spine
+- name: Setup CLOS
+  hosts: spine
   roles: 
-    - role: spine
+    - name: Setup Spine nodes
+      role: spine
 
 - hosts: leaf
   roles:    
-    - role: leaf 
+    - name: Setup Leaf nodes
+      role: leaf 
