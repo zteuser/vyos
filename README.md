@@ -1,2 +1,2 @@
-# vyos
-vyos automation
+# VyOS
+VyOS automation
